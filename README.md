@@ -16,10 +16,19 @@ gleam run day <day> part <part> <input_file>
 gleam add aoc2024@1
 ```
 ```gleam
-import aoc2024
+import aoc2024.{get_implementation}
+import gleam/int
+import gleam/io
+
+@external(erlang, "Elixir.File", "read")
+fn read(path: String) -> Result(String, String)
 
 pub fn main() {
-  // TODO: An example of the project in use
+  let assert Ok(in) = read("./data.in")
+  in
+  |> get_implementation(day, part)
+  |> int.to_string()
+  |> io.println()
 }
 ```
 

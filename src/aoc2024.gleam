@@ -5,7 +5,7 @@ import gleam/io
 import gleam/result
 
 @external(erlang, "Elixir.File", "read")
-pub fn read(path: String) -> Result(String, String)
+fn read(path: String) -> Result(String, String)
 
 pub fn main() {
   case argv.load().arguments {
@@ -35,7 +35,7 @@ fn validate_day_and_part(day, part) {
   )
 }
 
-fn get_implementation(day, part) {
+pub fn get_implementation(day, part) {
   case day, part {
     #(day, True), #(part, True) ->
       case day, part {
