@@ -1,5 +1,6 @@
 import argv
 import day_00
+import day_01
 import gleam/int
 import gleam/io
 import gleam/result
@@ -41,6 +42,8 @@ pub fn get_implementation(day, part) {
       case day, part {
         0, 1 -> day_00.part_1
         0, 2 -> day_00.part_2
+        1, 1 -> day_01.part_1
+        1, 2 -> day_01.part_2
         _, _ -> panic as "not implemented"
       }
     #(_, False), #(_, False) -> panic as "invalid day and part"
