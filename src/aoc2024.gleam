@@ -1,6 +1,7 @@
 import argv
 import day_00
 import day_01
+import day_02
 import gleam/int
 import gleam/io
 import gleam/result
@@ -25,7 +26,7 @@ fn validate_day_and_part(day, part) {
   #(
     {
       use day <- result.map(int.parse(day))
-      #(day, day >= 0 || day <= 31)
+      #(day, day >= 0 && day <= 31)
     }
       |> result.unwrap(#(-1, False)),
     {
@@ -44,6 +45,8 @@ pub fn get_implementation(day, part) {
         0, 2 -> day_00.part_2
         1, 1 -> day_01.part_1
         1, 2 -> day_01.part_2
+        2, 1 -> day_02.part_1
+        2, 2 -> day_02.part_2
         _, _ -> panic as "not implemented"
       }
     #(_, False), #(_, False) -> panic as "invalid day and part"
