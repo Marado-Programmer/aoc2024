@@ -1,4 +1,5 @@
 -module(day_00_impl).
+
 -export([part_1/1]).
 
 -spec part_1(string()) -> integer().
@@ -11,8 +12,8 @@ part_1(In) ->
 find_calibration_values(List) ->
     find_calibration_values(List, []).
 
-find_calibration_values([H|T], Acc) ->
-    find_calibration_values(T, [calibration_value(H)|Acc]);
+find_calibration_values([H | T], Acc) ->
+    find_calibration_values(T, [calibration_value(H) | Acc]);
 find_calibration_values([], Acc) ->
     Acc.
 
@@ -33,18 +34,10 @@ reverse_binary(Binary) ->
     ReversedList = lists:reverse(BinaryList),
     list_to_binary(ReversedList).
 
-%list_length(List) ->
-%    list_length(List, 0).
-%
-%list_length([_|T], Acc) ->
-%    list_length(T, Acc + 1);
-%list_length([], Acc) ->
-%    Acc.
-
 sum(List) ->
     sum(List, 0).
 
-sum([H|T], Acc) ->
+sum([H | T], Acc) ->
     sum(T, Acc + H);
 sum([], Acc) ->
     Acc.
