@@ -8,3 +8,7 @@ day 6 part 2:
 - 1971 ?
 - 2082 too high
 - 5682 too high
+day 7 part 2:
+- 8035840042460 to low
+- 20629621641775 to low (was doing the log10() on x before)
+- 20928985450275 CORRECT !!! (log(10) gives 1 and not 2 so log(y + 1))
