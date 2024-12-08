@@ -1,13 +1,15 @@
-pub fn nth(list: List(a), pos: Int) -> Result(a, Nil) {
+import gleam/option
+
+pub fn nth(list: List(a), pos: Int) -> option.Option(a) {
   case list, pos {
-    [x, ..], 0 -> Ok(x)
+    [x, ..], 0 -> option.Some(x)
     [_, ..rest], pos if pos > 0 -> nth(rest, pos - 1)
-    [_, ..], _ -> Error(Nil)
-    [], _ -> Error(Nil)
+    [_, ..], _ -> option.None
+    [], _ -> option.None
   }
 }
 
-pub fn index_of(list: List(a), func: fn(a) -> Bool) -> Result(Int, Nil) {
+pub fn index_of(list: List(a), func: fn(a) -> Bool) -> option.Option(Int) {
   index_of_loop(list, func, 0)
 }
 
@@ -15,35 +17,35 @@ fn index_of_loop(
   list: List(a),
   func: fn(a) -> Bool,
   pos: Int,
-) -> Result(Int, Nil) {
+) -> option.Option(Int) {
   case list {
     [x, ..rest] ->
       case func(x) {
-        True -> Ok(pos)
+        True -> option.Some(pos)
         _ -> index_of_loop(rest, func, pos + 1)
       }
-    [] -> Error(Nil)
+    [] -> option.None
   }
 }
 
 pub fn index_of_map(
   list: List(a),
-  func: fn(a, Int) -> Result(b, Nil),
-) -> Result(b, Nil) {
+  func: fn(a, Int) -> option.Option(b),
+) -> option.Option(b) {
   index_of_map_loop(list, func, 0)
 }
 
 fn index_of_map_loop(
   list: List(a),
-  func: fn(a, Int) -> Result(b, Nil),
+  func: fn(a, Int) -> option.Option(b),
   pos: Int,
-) -> Result(b, Nil) {
+) -> option.Option(b) {
   case list {
     [x, ..rest] ->
       case func(x, pos) {
-        Ok(_) as res -> res
+        option.Some(_) as res -> res
         _ -> index_of_map_loop(rest, func, pos + 1)
       }
-    [] -> Error(Nil)
+    [] -> option.None
   }
 }

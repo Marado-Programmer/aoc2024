@@ -1,3 +1,4 @@
+import gleam/option
 import gleam/set
 import utils/list.{index_of_map}
 import utils/matrix.{
@@ -7,7 +8,7 @@ import utils/matrix.{
 
 pub fn part_1(in: String) -> Int {
   let map = create_matrix_from_string(in)
-  let assert Ok(init) = find_init_pos(map, "^")
+  let assert option.Some(init) = find_init_pos(map, "^")
   let dir = get_dir_by_char("^")
   save_path(map, init, dir)
   |> set.size()
@@ -15,19 +16,19 @@ pub fn part_1(in: String) -> Int {
 
 pub fn part_2(in: String) -> Int {
   let map = create_matrix_from_string(in)
-  let assert Ok(init) = find_init_pos(map, "^")
+  let assert option.Some(init) = find_init_pos(map, "^")
   let dir = get_dir_by_char("^")
   save_obstructions_to_loop(map, init, dir)
   |> set.delete(init)
   |> set.size()
 }
 
-fn find_init_pos(map: Matrix2(String), init: String) -> Result(Point2, Nil) {
+fn find_init_pos(map: Matrix2(String), init: String) -> option.Option(Point2) {
   use line, y <- index_of_map(map)
   use char, x <- index_of_map(line)
   case char == init {
-    True -> Ok(#(x, y))
-    _ -> Error(Nil)
+    True -> option.Some(#(x, y))
+    _ -> option.None
   }
 }
 

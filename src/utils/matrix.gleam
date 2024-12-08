@@ -1,4 +1,5 @@
 import gleam/list
+import gleam/option
 import gleam/string
 import utils/list.{nth} as _
 
@@ -17,9 +18,9 @@ pub fn create_matrix_from_string(str: String) -> Matrix2(String) {
 pub fn in_matrix_or(mat: Matrix2(a), pos: Point2, do: fn(a) -> b, or: b) -> b {
   let #(x, y) = pos
   case nth(mat, y) {
-    Ok(line) ->
+    option.Some(line) ->
       case nth(line, x) {
-        Ok(a) -> do(a)
+        option.Some(a) -> do(a)
         _ -> or
       }
     _ -> or
@@ -51,4 +52,29 @@ pub fn matrix_change(mat: Matrix2(a), pos: Point2, v: a) -> Matrix2(a) {
     ])
   }
   list.reverse(new)
+}
+
+pub fn matrix_fold(mat: Matrix2(a), acc: b, f: fn(b, a) -> b) -> b {
+  use acc, line <- list.fold(mat, acc)
+  list.fold(line, acc, f)
+}
+
+pub fn matrix_fold_index(mat: Matrix2(a), acc: b, f: fn(b, a, Point2) -> b) -> b {
+  let #(_, b) = {
+    use #(cur_y, acc), line <- list.fold(mat, #(0, acc))
+    #(cur_y + 1, {
+      let #(_, b) =
+        list.fold(line, #(0, acc), fn(acc, x) {
+          let #(cur_x, acc) = acc
+          #(cur_x + 1, f(acc, x, #(cur_x, cur_y)))
+        })
+      b
+    })
+  }
+  b
+}
+
+pub fn to_string(mat: Matrix2(String)) -> String {
+  use acc, line <- list.fold(mat, "")
+  acc <> list.fold(line, "", fn(acc, x) { acc <> x }) <> "\n"
 }
