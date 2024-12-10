@@ -9,6 +9,7 @@ import day_06
 import day_07
 import day_08
 import day_09
+import day_10
 import gleam/int
 import gleam/io
 import gleam/result
@@ -68,6 +69,8 @@ pub fn get_implementation(day, part) {
         8, 2 -> day_08.part_2
         9, 1 -> day_09.part_1
         9, 2 -> day_09.part_2
+        10, 1 -> day_10.part_1
+        10, 2 -> day_10.part_2
         _, _ -> panic as "not implemented"
       }
     #(_, False), #(_, False) -> panic as "invalid day and part"

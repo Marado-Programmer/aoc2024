@@ -74,6 +74,21 @@ pub fn matrix_fold_index(mat: Matrix2(a), acc: b, f: fn(b, a, Point2) -> b) -> b
   b
 }
 
+pub fn matrix_map(mat: Matrix2(a), f: fn(a) -> b) -> Matrix2(b) {
+  {
+    use acc, line <- list.fold(mat, [])
+    [
+      {
+        use acc, a <- list.fold(line, [])
+        [f(a), ..acc]
+      }
+        |> list.reverse,
+      ..acc
+    ]
+  }
+  |> list.reverse()
+}
+
 pub fn to_string(mat: Matrix2(String)) -> String {
   use acc, line <- list.fold(mat, "")
   acc <> list.fold(line, "", fn(acc, x) { acc <> x }) <> "\n"
