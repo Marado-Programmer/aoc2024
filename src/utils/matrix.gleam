@@ -1,7 +1,7 @@
 import gleam/list
 import gleam/option
 import gleam/string
-import utils/list.{nth} as _
+import utils/list.{index_of_map, nth} as _
 
 pub type Matrix2(a) =
   List(List(a))
@@ -87,6 +87,35 @@ pub fn matrix_map(mat: Matrix2(a), f: fn(a) -> b) -> Matrix2(b) {
     ]
   }
   |> list.reverse()
+}
+
+pub fn matrix_first_index(
+  mat: Matrix2(a),
+  f: fn(a) -> Bool,
+) -> option.Option(#(Int, Int)) {
+  matrix_first_index_loop(mat, f, 0)
+}
+
+fn matrix_first_index_loop(
+  mat: Matrix2(a),
+  f: fn(a) -> Bool,
+  pos: Int,
+) -> option.Option(#(Int, Int)) {
+  case nth(mat, pos) {
+    option.None -> option.None
+    option.Some(line) ->
+      case
+        index_of_map(line, fn(v, x) {
+          case f(v) {
+            True -> option.Some(x)
+            _ -> option.None
+          }
+        })
+      {
+        option.None -> matrix_first_index_loop(mat, f, pos + 1)
+        option.Some(x) -> option.Some(#(x, pos))
+      }
+  }
 }
 
 pub fn to_string(mat: Matrix2(String)) -> String {
