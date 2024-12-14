@@ -15,6 +15,17 @@ pub fn create_matrix_from_string(str: String) -> Matrix2(String) {
   |> list.map(string.to_graphemes)
 }
 
+pub fn create_matrix(w, h, v) -> Matrix2(String) {
+  use acc, _ <- list.fold(list.range(1, h), [])
+  [
+    {
+      use acc, _ <- list.fold(list.range(1, w), [])
+      [v, ..acc]
+    },
+    ..acc
+  ]
+}
+
 pub fn in_matrix_or(mat: Matrix2(a), pos: Point2, do: fn(a) -> b, or: b) -> b {
   let #(x, y) = pos
   case nth(mat, y) {
